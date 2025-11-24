@@ -11,9 +11,9 @@
 	</parent>
 	<groupId>com.reffocase.backend.trainerapp</groupId>
 	<artifactId>backend-trainerapp</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>backend-trainerapp</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Backend del sistema RedFOCASE</description>
 	<url />
 
 	<licenses>
