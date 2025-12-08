@@ -33,7 +33,7 @@ public class User {
     @NotBlank
     private String nickname;
 
-    @Pattern(regexp = "^(?=.*[A-Z])(?=.*\\d).{8,}$", message = "La contraseña no tiene al menos 8 caracteres, una mayúscula y un número")
+    @Pattern(regexp = "^(?=.*[A-Z])(?=.*\\d).{8,}$", message = "contraseña no tiene al menos 8 caracteres, una mayúscula y un número")
     @NotBlank
     private String password;
 

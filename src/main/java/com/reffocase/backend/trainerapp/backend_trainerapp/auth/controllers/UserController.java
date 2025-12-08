@@ -98,7 +98,7 @@ public class UserController {
         if (userRequest.getPassword() != null && !userRequest.getPassword().isBlank() && userRequest.getChangePassword()) {
             if (!userRequest.getPassword().matches("^(?=.*[A-Z])(?=.*\\d).{8,}$")) {
                 return ResponseEntity.badRequest()
-                        .body("La contraseña debe tener al menos 8 caracteres, una mayúscula y un número");
+                        .body("contraseña debe tener al menos 8 caracteres, una mayúscula y un número");
             }
             userDB.setPassword(userRequest.getPassword());
         }
