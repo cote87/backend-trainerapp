@@ -80,6 +80,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
          * claims.put("authorities", authorities);
          */
         User user = userRepository.findByUsername(username).orElseThrow();
+        Long id = user.getId();
         Long provinceId = user.getProvince().getId();
         String nickname = user.getNickname();
 
@@ -88,6 +89,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .add("isAdmin", isAdmin)
                 .add("provinceId",provinceId)
                 .add("nickname",nickname)
+                .add("id",id)
                 .build();
 
         String token = Jwts.builder()
