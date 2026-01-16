@@ -52,11 +52,22 @@ public class TrainingServiceImpl implements TrainingService {
             if (organizer != null && !organizer.isEmpty()) {
                 predicates.add(cb.like(cb.lower(root.get("organizer")), "%" + organizer.toLowerCase() + "%"));
             }
+            /*
+             * if (startDateFrom != null) {
+             * predicates.add(cb.greaterThanOrEqualTo(root.get("startDate"),
+             * startDateFrom));
+             * }
+             * if (startDateTo != null) {
+             * predicates.add(cb.lessThanOrEqualTo(root.get("startDate"), startDateTo));
+             * }
+             */
             if (startDateFrom != null) {
-                predicates.add(cb.greaterThanOrEqualTo(root.get("startDate"), startDateFrom));
+                // Forzamos a que se trate como LocalDate puro
+                predicates.add(cb.greaterThanOrEqualTo(root.get("startDate").as(LocalDate.class), startDateFrom));
             }
             if (startDateTo != null) {
-                predicates.add(cb.lessThanOrEqualTo(root.get("startDate"), startDateTo));
+                // Forzamos a que se trate como LocalDate puro
+                predicates.add(cb.lessThanOrEqualTo(root.get("startDate").as(LocalDate.class), startDateTo));
             }
             if (provinceId != null) {
                 predicates.add(cb.equal(root.get("province").get("id"), provinceId));

@@ -6,8 +6,13 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+
+import org.hibernate.annotations.JdbcTypeCode;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.sql.Types;
 import java.time.LocalDate;
 
 @Entity
@@ -24,7 +29,8 @@ public class Training {
 
     @NotNull(message = "La fecha de inicio es obligatoria")
     @FutureOrPresent(message = "La fecha de inicio no puede ser en el pasado")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @JdbcTypeCode(Types.DATE)
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "America/Argentina/Buenos_Aires")
     private LocalDate startDate;
 
     @NotNull(message = "El modo de capacitación es obligatorio")
