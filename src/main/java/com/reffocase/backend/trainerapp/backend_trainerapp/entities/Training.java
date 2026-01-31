@@ -8,10 +8,8 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import org.hibernate.annotations.JdbcTypeCode;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.reffocase.backend.trainerapp.backend_trainerapp.auth.models.entities.User;
 
 import java.sql.Types;
 import java.time.LocalDate;

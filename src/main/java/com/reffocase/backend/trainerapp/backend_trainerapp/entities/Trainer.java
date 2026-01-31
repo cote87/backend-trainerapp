@@ -20,6 +20,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Entity
@@ -54,6 +55,9 @@ public class Trainer {
 
     @NotNull
     private Boolean enabled;
+
+    @Size(max = 255, message = "El nombre de la institución y/o fuerza no puede superar los 255 caracteres.")
+    private String institution;
 
     @NotNull
     @Valid
