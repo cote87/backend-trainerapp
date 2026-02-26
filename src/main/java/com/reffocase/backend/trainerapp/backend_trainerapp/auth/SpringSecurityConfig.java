@@ -27,7 +27,6 @@ import com.reffocase.backend.trainerapp.backend_trainerapp.auth.repositories.Use
 @Configuration
 public class SpringSecurityConfig {
 
-
     private final UserRepository userRepository;
 
     public SpringSecurityConfig(UserRepository userRepository) {
@@ -50,6 +49,7 @@ public class SpringSecurityConfig {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(authRules -> authRules
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 // Trainers
                 .requestMatchers(HttpMethod.GET, "/api/formadores").hasAuthority("KEY_READ_TRAINERS")
                 .requestMatchers(HttpMethod.GET, "/api/formadores/{id}").hasAuthority("KEY_READ_TRAINERS")
@@ -57,7 +57,7 @@ public class SpringSecurityConfig {
                 .requestMatchers(HttpMethod.PUT, "/api/formadores/{id}").hasAuthority("KEY_WRITE_TRAINERS")
                 .requestMatchers(HttpMethod.DELETE, "/api/formadores/{id}").hasAuthority("KEY_DELETE_TRAINERS")
                 .requestMatchers(HttpMethod.GET, "/api/formadores/list").hasAuthority("KEY_READ_METRICS")
-                
+
                 // Thematics
                 .requestMatchers(HttpMethod.GET, "/api/tematicas/").hasAuthority("KEY_READ_THEMATICS")
                 .requestMatchers(HttpMethod.GET, "/api/tematicas").hasAuthority("KEY_READ_THEMATICS")
@@ -79,6 +79,14 @@ public class SpringSecurityConfig {
                 .requestMatchers(HttpMethod.PUT, "/api/capacitaciones/{id}").hasAuthority("KEY_WRITE_TRAININGS")
                 .requestMatchers(HttpMethod.DELETE, "/api/capacitaciones/{id}").hasAuthority("KEY_DELETE_TRAININGS")
                 .requestMatchers(HttpMethod.GET, "/api/capacitaciones-list").hasAuthority("KEY_READ_TRAININGS")
+
+                // Rersearchs
+                .requestMatchers(HttpMethod.GET, "/api/investigaciones").hasAuthority("KEY_READ_RESEARCHS")
+                .requestMatchers(HttpMethod.GET, "/api/investigaciones/{id}").hasAuthority("KEY_READ_RESEARCHS")
+                .requestMatchers("/api/investigaciones/**").permitAll()
+                //.requestMatchers(HttpMethod.POST, "/api/investigaciones").hasAuthority("KEY_WRITE_RESEARCHS")
+                .requestMatchers(HttpMethod.PUT, "/api/investigaciones/{id}").hasAuthority("KEY_WRITE_RESEARCHS")
+                .requestMatchers(HttpMethod.DELETE, "/api/investigaciones/{id}").hasAuthority("KEY_DELETE_RESEARCHS")
 
                 // Users
                 .requestMatchers(HttpMethod.GET, "/api/users/").hasAuthority("KEY_READ_USERS")
@@ -106,10 +114,10 @@ public class SpringSecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(List.of(
-		"http://redfocase.com.ar",
-        "http://www.redfocase.com.ar",
-		"http://localhost:5173"));
-	config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                "http://redfocase.com.ar",
+                "http://www.redfocase.com.ar",
+                "http://localhost:5173"));
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         config.setAllowCredentials(true);
 

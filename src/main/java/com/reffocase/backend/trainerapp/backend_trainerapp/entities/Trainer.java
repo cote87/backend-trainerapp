@@ -3,8 +3,6 @@ package com.reffocase.backend.trainerapp.backend_trainerapp.entities;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.reffocase.backend.trainerapp.backend_trainerapp.auth.models.entities.User;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

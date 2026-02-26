@@ -11,13 +11,12 @@ import com.reffocase.backend.trainerapp.backend_trainerapp.services.TrainerServi
 import jakarta.validation.Valid;
 
 import java.util.List;
-import java.util.Optional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
-@RequestMapping("/api/formadores") // Usamos "formadores" como nombre en las URLs
+@RequestMapping("/api/formadores") 
 @CrossOrigin(origins = "*")
 public class TrainerController {
 
@@ -68,8 +67,8 @@ public class TrainerController {
 
     // Obtener un trainer por ID
     @GetMapping("/{id}")
-    public Optional<Trainer> findById(@PathVariable Long id) {
-        return trainerService.findById(id);
+    public Trainer findById(@PathVariable Long id) {
+        return trainerService.findById(id).orElseThrow();
     }
 
     // Crear un nuevo trainer

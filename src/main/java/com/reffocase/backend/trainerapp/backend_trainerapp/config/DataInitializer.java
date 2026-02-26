@@ -70,7 +70,7 @@ public class DataInitializer implements CommandLineRunner {
         // Valores de la DB
         // predefinidos/////////////////////////////////////////////////////
 
-        boolean produccion = true;
+        boolean test = false;
 
         // Lista de provincias
         if (provinceRepository.findAll().size() == 0) {
@@ -128,33 +128,57 @@ public class DataInitializer implements CommandLineRunner {
             permissionRepository.save(new Permission("KEY_READ_LOGGINUSER"));
             permissionRepository.save(new Permission("KEY_WRITE_LOGGINUSER"));
             permissionRepository.save(new Permission("KEY_READ_METRICS"));
+            permissionRepository.save(new Permission("KEY_READ_RESEARCHS"));
+            permissionRepository.save(new Permission("KEY_WRITE_RESEARCHS"));
+            permissionRepository.save(new Permission("KEY_DELETE_RESEARCHS"));
         }
 
-        if (roleRepository.findAll().size() == 0) {
-
+        List<Role> roles = roleRepository.findAll();
             // Super Admin tiene control TOTAL
-            LinkedHashSet<Permission> sadminPermissions = new LinkedHashSet<>(permissionRepository.findAll());
+        LinkedHashSet<Permission> sadminPermissions = new LinkedHashSet<>(permissionRepository.findAll());
 
             // Admin tiene control del Super Admin con las siguientes limitaciones:
             // Solo ve usuarios del tipo USER y READER de su Provincia.
             // No puede ver métricas.
-            Set<Permission> adminPermissions = new HashSet<>(listOfPermission("ROLE_ADMIN", sadminPermissions));
+        Set<Permission> adminPermissions = new HashSet<>(listOfPermission("ROLE_ADMIN", sadminPermissions));
 
             // User es el usuario promedio, se diferencia de un Admin al tener las
             // siguientes limitaciones:
             // No tiene acceso de ningun tipo a Usuarios.
-            Set<Permission> userPermissions = new HashSet<>(listOfPermission("ROLE_USER", sadminPermissions));
+        Set<Permission> userPermissions = new HashSet<>(listOfPermission("ROLE_USER", sadminPermissions));
 
             // Reader es el usuario que solo puede leer informació, se diferencia del User
             // por tener las siguientes limitaciones:
             // No puede editar nada.
             // No tiene acceso a temáticas.
-            Set<Permission> readerPermissions = new HashSet<>(listOfPermission("ROLE_READER", sadminPermissions));
+        Set<Permission> readerPermissions = new HashSet<>(listOfPermission("ROLE_READER", sadminPermissions));
+
+        if (roles.size() == 0) {
 
             roleRepository.save(new Role("ROLE_SADMIN", sadminPermissions));
             roleRepository.save(new Role("ROLE_ADMIN", adminPermissions));
             roleRepository.save(new Role("ROLE_USER", userPermissions));
             roleRepository.save(new Role("ROLE_READER", readerPermissions));
+        }
+        else{
+            //Se actualizan los permisos
+            roles.stream().forEach((rol)->{
+                switch(rol.getName()){
+                    case "ROLE_SADMIN":
+                        rol.setPermissions(sadminPermissions);
+                        break;
+                    case "ROLE_ADMIN":
+                        rol.setPermissions(adminPermissions);
+                        break;
+                    case "ROLE_USER":
+                        rol.setPermissions(userPermissions);
+                        break;
+                    case "ROLE_READER":
+                        rol.setPermissions(readerPermissions);
+                        break;
+                }
+                roleRepository.save(rol);
+            });
         }
 
         // Se crea el SUPERUSER
@@ -168,7 +192,8 @@ public class DataInitializer implements CommandLineRunner {
             sadmin.setEnabled(true);
             sadmin.setProvince(provinceRepository.findById(18L).orElseThrow());
             userRepository.save(sadmin);
-            if(!produccion) createUsers = true;
+            if (test)
+                createUsers = true;
         }
 
         // Se crean las temáticas iniciales que me pasaron por lista
@@ -229,9 +254,11 @@ public class DataInitializer implements CommandLineRunner {
 
         }
 
-        // Datos de prueba, borrar en produccion//////////////////////////////////////////////////////////////////////
+        // Datos de prueba, borrar en
+        // produccion//////////////////////////////////////////////////////////////////////
 
-        if (!produccion) {
+        if (test) {
+
             if (createUsers) {
                 User user = new User();
                 List<Province> provinces = provinceRepository.findAll();
@@ -394,6 +421,7 @@ public class DataInitializer implements CommandLineRunner {
                 // Permisos para todos
                 case "KEY_READ_TRAINERS":
                 case "KEY_READ_TRAININGS":
+                case "KEY_READ_RESEARCHS":
                 case "KEY_READ_LOGGINUSER":
                 case "KEY_WRITE_LOGGINUSER":
                     result.add(permission);
@@ -402,6 +430,8 @@ public class DataInitializer implements CommandLineRunner {
                 // Permisos solo para user y admin
                 case "KEY_READ_THEMATICS":
                 case "KEY_WRITE_TRAINERS":
+                case "KEY_WRITE_RESEARCHS":
+                case "KEY_DELETE_RESEARCHS":
                 case "KEY_WRITE_TRAININGS":
                 case "KEY_DELETE_TRAINERS":
                 case "KEY_DELETE_TRAININGS":
