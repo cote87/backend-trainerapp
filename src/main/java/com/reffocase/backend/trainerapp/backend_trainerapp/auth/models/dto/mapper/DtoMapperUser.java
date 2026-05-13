@@ -24,7 +24,7 @@ public class DtoMapperUser {
         if(user==null){
             throw new RuntimeException("Debe pasar el entity user!");
         }
-        return new UserDto(user.getId(),user.getUsername(), user.getNickname(),user.getProvince(),user.getRole().getName());
+        return new UserDto(user.getId(),user.getUsername(), user.getNickname(),user.getProvince(),user.getRole().getName(),user.getFuerzaFederal());
     }
 
 }

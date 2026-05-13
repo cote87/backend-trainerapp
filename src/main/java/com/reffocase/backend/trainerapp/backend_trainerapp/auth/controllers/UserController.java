@@ -42,7 +42,8 @@ public class UserController {
     public Page<UserDto> userList(
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "8") int size,
-            @RequestParam(name = "username", defaultValue = "") String username) {
+            @RequestParam(name = "username", defaultValue = "") String username,
+            @RequestParam(name = "fuerzaFederal", defaultValue = "0") String fuerzaFederal) {
 
         String currentRole = getCurrentRole();
 

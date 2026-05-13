@@ -1,5 +1,6 @@
 package com.reffocase.backend.trainerapp.backend_trainerapp.auth.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.reffocase.backend.trainerapp.backend_trainerapp.entities.Province;
 
 import jakarta.persistence.Column;
@@ -48,6 +49,10 @@ public class User {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id")
     private Role role;
+
+    @JsonProperty("fuerzaFederal")
+    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
+    private Boolean fuerzaFederal = false;
 
     private boolean enabled;
 }
