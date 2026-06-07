@@ -52,23 +52,29 @@ public class TrainingServiceImpl implements TrainingService {
             if (organizer != null && !organizer.isEmpty()) {
                 predicates.add(cb.like(cb.lower(root.get("organizer")), "%" + organizer.toLowerCase() + "%"));
             }
-            /*
-             * if (startDateFrom != null) {
-             * predicates.add(cb.greaterThanOrEqualTo(root.get("startDate"),
-             * startDateFrom));
-             * }
-             * if (startDateTo != null) {
-             * predicates.add(cb.lessThanOrEqualTo(root.get("startDate"), startDateTo));
-             * }
-             */
+
+            // --- NUEVA LÓGICA PARA MANEJAR RANGOS DE FECHA Y NULLS ---
+            List<Predicate> dateRangePredicates = new ArrayList<>();
+
             if (startDateFrom != null) {
-                // Forzamos a que se trate como LocalDate puro
-                predicates.add(cb.greaterThanOrEqualTo(root.get("startDate").as(LocalDate.class), startDateFrom));
+                dateRangePredicates
+                        .add(cb.greaterThanOrEqualTo(root.get("startDate").as(LocalDate.class), startDateFrom));
             }
             if (startDateTo != null) {
-                // Forzamos a que se trate como LocalDate puro
-                predicates.add(cb.lessThanOrEqualTo(root.get("startDate").as(LocalDate.class), startDateTo));
+                dateRangePredicates.add(cb.lessThanOrEqualTo(root.get("startDate").as(LocalDate.class), startDateTo));
             }
+
+            // Si el usuario envió algún filtro de fecha, aplicamos el OR (rango válido o es
+            // nulo)
+            if (!dateRangePredicates.isEmpty()) {
+                Predicate insideRange = cb.and(dateRangePredicates.toArray(new Predicate[0]));
+                Predicate isNullDate = cb.isNull(root.get("startDate"));
+
+                // Agregamos al listado principal: (fecha entre los rangos OR fecha es nula)
+                predicates.add(cb.or(insideRange, isNullDate));
+            }
+            // ---------------------------------------------------------
+
             if (provinceId != null) {
                 predicates.add(cb.equal(root.get("province").get("id"), provinceId));
             }

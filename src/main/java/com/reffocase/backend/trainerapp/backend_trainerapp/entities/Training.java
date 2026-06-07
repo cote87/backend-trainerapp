@@ -26,7 +26,6 @@ public class Training {
     @Size(max = 255, message = "El título no puede superar los 255 caracteres")
     private String title;
 
-    @NotNull(message = "La fecha de inicio es obligatoria")
     @FutureOrPresent(message = "La fecha de inicio no puede ser en el pasado")
     @JdbcTypeCode(Types.DATE)
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "America/Argentina/Buenos_Aires")
