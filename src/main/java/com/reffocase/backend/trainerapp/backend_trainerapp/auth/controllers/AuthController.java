@@ -4,7 +4,6 @@ import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -33,11 +32,11 @@ public class AuthController {
 
     private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    public AuthController(PasswordEncoder passwordEncoder) {
+    public AuthController(PasswordEncoder passwordEncoder, UserService userService) {
         this.passwordEncoder = passwordEncoder;
+        this.userService = userService;
     }
 
     @PostMapping("/validacion")

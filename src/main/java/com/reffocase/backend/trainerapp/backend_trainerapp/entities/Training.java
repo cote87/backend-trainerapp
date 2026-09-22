@@ -10,12 +10,14 @@ import lombok.Data;
 import org.hibernate.annotations.JdbcTypeCode;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.reffocase.backend.trainerapp.backend_trainerapp.audit.AuditEntityListener;
 
 import java.sql.Types;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "trainings")
+@EntityListeners(AuditEntityListener.class)
 @Data
 public class Training {
     @Id

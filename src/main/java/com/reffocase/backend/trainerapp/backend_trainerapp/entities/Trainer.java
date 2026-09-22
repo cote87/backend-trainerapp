@@ -3,8 +3,11 @@ package com.reffocase.backend.trainerapp.backend_trainerapp.entities;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.reffocase.backend.trainerapp.backend_trainerapp.audit.AuditEntityListener;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -23,6 +26,7 @@ import lombok.Data;
 
 @Entity
 @Table(name = "trainers")
+@EntityListeners(AuditEntityListener.class)
 @Data
 public class Trainer {
     @Id

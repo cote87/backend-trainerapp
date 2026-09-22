@@ -1,6 +1,9 @@
 package com.reffocase.backend.trainerapp.backend_trainerapp.entities;
 
+import com.reffocase.backend.trainerapp.backend_trainerapp.audit.AuditEntityListener;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -13,6 +16,7 @@ import lombok.Data;
 
 @Entity
 @Table(name = "researchers")
+@EntityListeners(AuditEntityListener.class)
 @Data
 public class Researcher {
     @Id

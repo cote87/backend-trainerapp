@@ -1,6 +1,5 @@
 package com.reffocase.backend.trainerapp.backend_trainerapp.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -27,8 +26,11 @@ import jakarta.validation.Valid;
 @CrossOrigin(origins = "*")
 public class ResearchController {
 
-    @Autowired
-    private ResearchService researchService;
+    private final ResearchService researchService;
+
+    ResearchController(ResearchService researchService) {
+        this.researchService = researchService;
+    }
 
     @GetMapping
     public ResponseEntity<Page<Research>> getAll(

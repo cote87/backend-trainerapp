@@ -7,7 +7,6 @@ import com.reffocase.backend.trainerapp.backend_trainerapp.repositories.Research
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.criteria.Predicate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -23,11 +22,14 @@ import java.util.Set;
 @Transactional
 public class ResearchServiceImpl implements ResearchService {
 
-    @Autowired
-    private ResearchRepository researchRepository;
+    private final ResearchRepository researchRepository;
 
-    @Autowired
-    private ResearcherRepository researcherRepository;
+    private final ResearcherRepository researcherRepository;
+
+    ResearchServiceImpl(ResearchRepository researchRepository, ResearcherRepository researcherRepository) {
+        this.researchRepository = researchRepository;
+        this.researcherRepository = researcherRepository;
+    }
 
     @Override
     @Transactional(readOnly = true)

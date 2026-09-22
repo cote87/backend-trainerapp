@@ -2,7 +2,6 @@ package com.reffocase.backend.trainerapp.backend_trainerapp.auth;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,12 +28,12 @@ public class SpringSecurityConfig {
 
     private final UserRepository userRepository;
 
-    public SpringSecurityConfig(UserRepository userRepository) {
+    public SpringSecurityConfig(UserRepository userRepository, AuthenticationConfiguration authenticationConfiguration) {
         this.userRepository = userRepository;
+        this.authenticationConfiguration = authenticationConfiguration;
     }
 
-    @Autowired
-    private AuthenticationConfiguration authenticationConfiguration;
+    private final AuthenticationConfiguration authenticationConfiguration;
 
     @Bean
     PasswordEncoder passwordEncoder() {
@@ -93,6 +92,9 @@ public class SpringSecurityConfig {
                 .requestMatchers(HttpMethod.PUT, "/api/users/*").hasAuthority("KEY_WRITE_USERS")
                 .requestMatchers(HttpMethod.POST, "/api/users").hasAuthority("KEY_WRITE_USERS")
 
+                // Logs
+                .requestMatchers(HttpMethod.GET, "/api/audit-logs/**").hasAnyAuthority("ROLE_SADMIN", "ROLE_ADMIN")
+                
                 // Loggin User
                 .requestMatchers(HttpMethod.PUT, "/api/perfil").permitAll()
 

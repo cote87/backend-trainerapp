@@ -3,7 +3,6 @@ package com.reffocase.backend.trainerapp.backend_trainerapp.auth.controllers;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,8 +33,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping("/api/users")
 @CrossOrigin(originPatterns = "*")
 public class UserController {
-    @Autowired
-    private UserService service;
+    private final UserService service;
+
+    UserController(UserService service) {
+        this.service = service;
+    }
 
     // Lista de usuarios paginados
     @GetMapping

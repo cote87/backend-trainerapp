@@ -1,10 +1,12 @@
 package com.reffocase.backend.trainerapp.backend_trainerapp.auth.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.reffocase.backend.trainerapp.backend_trainerapp.audit.AuditEntityListener;
 import com.reffocase.backend.trainerapp.backend_trainerapp.entities.Province;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,6 +22,7 @@ import lombok.Data;
 
 @Entity
 @Table(name = "users")
+@EntityListeners(AuditEntityListener.class)
 @Data
 public class User {
 
@@ -36,6 +39,7 @@ public class User {
 
     @Pattern(regexp = "^(?=.*[A-Z])(?=.*\\d).{8,}$", message = "contraseña no tiene al menos 8 caracteres, una mayúscula y un número")
     @NotBlank
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @NotNull

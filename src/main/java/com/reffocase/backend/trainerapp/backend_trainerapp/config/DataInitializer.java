@@ -10,7 +10,6 @@ import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -36,32 +35,35 @@ import com.reffocase.backend.trainerapp.backend_trainerapp.services.ProvinceServ
 @Component
 public class DataInitializer implements CommandLineRunner {
 
-    @Autowired
-    private ProvinceService provinceRepository;
+    private final ProvinceService provinceRepository;
 
-    @Autowired
-    private DocumentTypeService documentTypeRepository;
+    private final DocumentTypeService documentTypeRepository;
 
-    @Autowired
-    private TrainerRepository trainerRepository;
+    private final TrainerRepository trainerRepository;
 
-    @Autowired
-    private ThematicRepository thematicRepository;
+    private final ThematicRepository thematicRepository;
 
-    @Autowired
-    private PermissionRepository permissionRepository;
+    private final PermissionRepository permissionRepository;
 
-    @Autowired
-    private TrainingRepository trainingRepository;
+    private final TrainingRepository trainingRepository;
 
-    @Autowired
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
+
+    DataInitializer(ProvinceService provinceRepository, DocumentTypeService documentTypeRepository, PasswordEncoder passwordEncoder, UserRepository userRepository, RoleRepository roleRepository, TrainingRepository trainingRepository, PermissionRepository permissionRepository, ThematicRepository thematicRepository, TrainerRepository trainerRepository) {
+        this.provinceRepository = provinceRepository;
+        this.documentTypeRepository = documentTypeRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.trainingRepository = trainingRepository;
+        this.permissionRepository = permissionRepository;
+        this.thematicRepository = thematicRepository;
+        this.trainerRepository = trainerRepository;
+    }
 
     @SuppressWarnings("null")
     @Override
